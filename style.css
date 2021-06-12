@@ -1,0 +1,112 @@
+body {
+    width: 1vw;
+    height: 1vh;
+    overflow: hidden;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+.generatedtable {
+    border: 5px solid green;
+    border-collapse: collapse;
+    margin: auto;
+}
+.generatedtable td {
+    border: 1px solid green;
+}
+.generatedtable tbody tr:nth-child(odd) {
+    background-color: greenyellow;
+}
+
+.generatedtable tbody tr:nth-child(even) {
+    background-color: lightskyblue;
+}
+
+.generatedtable tr:hover {
+    background-color: lightsalmon;
+}
+.container > div {
+    background-color: lightblue;
+    border: 1px solid darkblue;
+}
+.container {
+    display: grid;
+    grid-template-columns: 19vw 80vw;
+    grid-template-rows: 14vh 10vh 69vh 5vh;
+    grid-template-areas:
+        "header header"
+        "side topbar"
+        "side content"
+        "footer footer";
+}
+.header {
+    grid-area: header;
+    display: flex;
+    font-size: 1.8vh;
+    text-align: center;
+}
+.header>img{
+    height: 14vh;
+}
+.sidebar {
+    grid-area: side;
+}
+.sidebartext * {
+    display: flex;
+    font-size: 1.8vh;
+    text-align: center;
+    text-decoration: none;
+    color: darkcyan;
+}
+.topbar {
+    grid-area: topbar;
+    justify-content: center;
+}
+.topbartext {
+    position: relative;
+}
+.topbartext * {
+    font-size: 3vh;
+    text-align: center;
+    text-decoration: none;
+    color: darkcyan;
+}
+.topbartext > a:hover {
+    color: yellow;
+}
+.content {
+    grid-area: content;
+}
+.footer {
+    grid-area: footer;
+    font-size: 1.5vh;
+    text-align: center;
+}
+@media screen and (max-width: 1000px) {
+    .container {
+        display: grid;
+        grid-template-columns: 98vw;
+        grid-template-rows: auto;
+        grid-template-areas:
+            "header"
+            "side"
+            "topbar"
+            "content"
+            "footer";
+    }
+    .header {
+        display: block;
+        font-size: 1vh;
+        text-align: center;
+    }
+    .sidebar {
+        grid-area: side;
+    }
+    .topbar {
+        grid-area: topbar;
+    }
+    .content {
+        grid-area: content;
+    }
+    .footer {
+        grid-area: footer;
+    }
+}
