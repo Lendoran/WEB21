@@ -41,48 +41,8 @@ include "func.php";
 
     </div>
     <div class="content">
-        <form action="" method="get">
-            <table>
-                <tr>
-                    <td>
-                        <label for="jmeno_produktu">Jméno produktu</label>
-                    </td>
-                    <td>
-                        <input type="text" name="jmeno_produktu">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="jmeno_produktu">Kód produktu</label>
-                    </td>
-                    <td>
-                        <input type="text" name="kod_produktu">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <button type="submit" name="vyhledat">Vyhledat produkt</button>
-                    </td>
-                </tr>
-            </table>
-        </form>
         <?php
-        if (isset($_GET['vyhledat'])) {
-            if (empty($_GET["jmeno_produktu"]) and empty($_GET["kod_produktu"])) {
-                echo "musíš zadat jméno nebo kód produktu";
-            } else {
-                if (!empty($_GET["kod_produktu"])) {
-                    $kod = $_GET["kod_produktu"];
-                    $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty WHERE kod LIKE '%$kod%';");
-                    echo TableFrom2DArray(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result);
-                }
-                if (!empty($_GET["jmeno_produktu"])) {
-                    $jmeno = $_GET["jmeno_produktu"];
-                    $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty WHERE jmeno LIKE '%$jmeno%';");
-                    echo TableFrom2DArray(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result);
-                }
-            }
-        }
+         echo "Co si o nás lidé myslí?";
         ?>
     </div>
     <div class="footer footertext">

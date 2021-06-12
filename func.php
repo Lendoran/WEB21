@@ -1,4 +1,5 @@
 <?php
+
 function optionFromSql($sqlResult, $value, $text)
 {
     $result = "";

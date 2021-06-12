@@ -48,7 +48,7 @@ include "func.php";
                         <label for="jmeno_produktu">Jméno produktu</label>
                     </td>
                     <td>
-                        <input type="text" name="jmeno_produktu">
+                        <input type="gsearch" name="jmeno_produktu">
                     </td>
                 </tr>
                 <tr>
@@ -56,7 +56,7 @@ include "func.php";
                         <label for="jmeno_produktu">Kód produktu</label>
                     </td>
                     <td>
-                        <input type="text" name="kod_produktu">
+                        <input type="gsearch" name="kod_produktu">
                     </td>
                 </tr>
                 <tr>

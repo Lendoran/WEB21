@@ -5,7 +5,6 @@ if ($conn->connect_error)
 $conn->set_charset("utf8");
 
 include "func.php";
-
 ?>
 
 <!DOCTYPE html>
@@ -41,47 +40,59 @@ include "func.php";
 
     </div>
     <div class="content">
-        <form action="" method="get">
+        <form action="" method="get" oninput="output_hodnoceni.value=parseInt(hodnota_hodnoceni.value)">
             <table>
                 <tr>
                     <td>
-                        <label for="jmeno_produktu">Jméno produktu</label>
+                        <label for="jmeno_hodnoceni">Vaše jméno: </label>
                     </td>
                     <td>
-                        <input type="text" name="jmeno_produktu">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="jmeno_produktu">Kód produktu</label>
-                    </td>
-                    <td>
-                        <input type="text" name="kod_produktu">
+                        <input type="text" name="jmeno_hodnoceni">
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <button type="submit" name="vyhledat">Vyhledat produkt</button>
+                        <label for="hodnota_hodnoceni">Hodnocení ( 100 => nejlepší ): </label>
+                    </td>
+                    <td>
+                        0<input type="range" name="hodnota_hodnoceni" min="0" max="100" value="50">100 = 
+                        <output name="output_hodnoceni" for="hodnota_hodnoceni"></output>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="komentar_hodnoceni">Komentář (dobrovolný) : </label>
+                    </td>
+                    <td>
+                        <textarea type="text" name="komentar_hodnoceni" placeholder="Sem napište svůj komentář"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button type="submit" name="odeslat_hodnoceni">Odeslat hodnocení</button>
                     </td>
                 </tr>
             </table>
         </form>
         <?php
-        if (isset($_GET['vyhledat'])) {
-            if (empty($_GET["jmeno_produktu"]) and empty($_GET["kod_produktu"])) {
-                echo "musíš zadat jméno nebo kód produktu";
+        if (!empty($_GET["jmeno_hodnoceni"])) {
+            if ((!empty($_GET["hodnota_hodnoceni"]) and ($_GET["jmeno_hodnoceni"] >= 0 ) and ($_GET["jmeno_hodnoceni"] < 101))) {
+                if (empty($_GET["komentar_hodnoceni"])) {
+                    $komentar = "bez komentáře";
+                } else {
+                    $komentar = $_GET["komentar_hodnoceni"];
+                }
+                $jmeno = $_GET["jmeno_hodnoceni"];
+                $hodnoceni = $_GET["hodnota_hodnoceni"];
+                $file = fopen("hodnoceni.txt", "a") or die("nepodařilo se otevřít soubor s hodnocením");
+                fwrite($file, "$jmeno;$hodnoceni;$komentar\n");
+                fclose($file);
+                echo "Komentář byl úspěšně zapsán";
             } else {
-                if (!empty($_GET["kod_produktu"])) {
-                    $kod = $_GET["kod_produktu"];
-                    $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty WHERE kod LIKE '%$kod%';");
-                    echo TableFrom2DArray(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result);
-                }
-                if (!empty($_GET["jmeno_produktu"])) {
-                    $jmeno = $_GET["jmeno_produktu"];
-                    $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty WHERE jmeno LIKE '%$jmeno%';");
-                    echo TableFrom2DArray(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result);
-                }
+                echo "Musíš zadat hodnotu hodnocení";
             }
+        } else {
+            echo "Musíš zadat svoje jméno";
         }
         ?>
     </div>

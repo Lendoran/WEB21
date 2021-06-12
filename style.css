@@ -1,8 +1,13 @@
 body {
-    width: 1vw;
-    height: 1vh;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+}
+body form{
+    position: relative;
+    /* left: 29vw; */
 }
 .generatedtable {
     border: 5px solid green;
