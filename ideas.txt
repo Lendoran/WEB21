@@ -8,8 +8,4 @@ todo ve výpisu tabulky s scanovanými itemy bude odkaz na daný produkt (tlač�
 
 ? stránky = kasa - aktuální košík se bude ukládat do textového souboru a na konci se vše odečte z databáze
 
-?f zeptat se učitelky ve škole na strukturu mysqli_result
-
-todo nastavit že v tabulce uživatele bude username unique
-
 todo -> func.php
