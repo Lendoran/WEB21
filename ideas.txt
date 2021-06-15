@@ -7,5 +7,3 @@ todo ve výpisu tabulky s scanovanými itemy bude odkaz na daný produkt (tlač�
 *sql tabulka produkty = id, kod, jmeno, cena, pocetKsNaSklade
 
 ? stránky = kasa - aktuální košík se bude ukládat do textového souboru a na konci se vše odečte z databáze
-
-todo -> func.php

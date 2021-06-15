@@ -60,3 +60,14 @@ a:hover {
     background-image: linear-gradient(to top, #51c74d, #31a72d);
     padding: 2em;
 }
+blockquote {
+    border: 1px dashed black;
+    padding: 1em;
+    font-size: 1.1em;
+    color: darkblue;
+}
+.blockquote-footer {
+}
+#uvod {
+    font-size: 1.3em;
+}

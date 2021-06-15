@@ -5,6 +5,23 @@ if ($conn->connect_error)
 $conn->set_charset("utf8");
 
 include "func.php";
+
+$L2Arr = file_get_contents("hodnoceni.txt");
+$exp = explode(":??:", $L2Arr);
+$komentare = [];
+foreach ($exp as $key => $value) {
+    $rozdelene = explode(";", $value);
+    if ($rozdelene[0] != null && $rozdelene[1] != null && $rozdelene[2] != null) {
+        $jmeno = $rozdelene[0];
+        $procenta = $rozdelene[1];
+        $koment = $rozdelene[2];
+        array_push($komentare, "<blockquote><p>$koment</p><footer class=\"blockquote-footer\">$jmeno -> $procenta %</footer></blockquote>");
+    }
+}
+$arrAsString = "";
+foreach ($komentare as $key => $value) {
+    $arrAsString .= $value . "!_:?_!";
+}
 ?>
 
 <!DOCTYPE html>
@@ -14,14 +31,41 @@ include "func.php";
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hodnocení</title>
+    <title>Úvodní stránka</title>
     <link rel="stylesheet" href="style.css">
     <link rel="shortcut icon" href="logo.png" type="image/png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 
-<body class="bg-white text-secondary text-center container-fluid">
+<body class="bg-white text-secondary text-center container-fluid" onload="nacti()">
+    <script>
+        let str = <?php echo json_encode($arrAsString); ?>;
+
+        let komentareArr = str.split("!_:?_!");
+        komentareArr.pop();
+
+        let cislo = Math.floor(Math.random() * komentareArr.length);
+
+        let pred = function pred() {
+            if (cislo == 0) {
+                return;
+            }
+            document.getElementById("aktualniKomentar").innerHTML = komentareArr[--cislo];
+        }
+
+        let dalsi = function dalsi() {
+            if (cislo == komentareArr.length - 1) {
+                return;
+            }
+            document.getElementById("aktualniKomentar").innerHTML = komentareArr[++cislo];
+        }
+
+        let nacti = function nacti() {
+            document.getElementById("aktualniKomentar").innerHTML = komentareArr[cislo];
+        }
+    </script>
     <div class="row header">
         <div class="col-sm-2">
             <img src="logo.png" alt="logo firmy" class="img-fluid">
@@ -49,9 +93,24 @@ include "func.php";
             </div>
         </div>
         <div class="col-sm-9 bg-lime p-3 content-form">
-            <?php
-            echo "Co si o nás lidé myslí?";
-            ?>
+            <p id="uvod">
+                Vítejte na webových stránkách obchodu. Můžete zde vyhledávat produkty, jejich množství na skladě a jejich cenu. Dále se můžete registrovat do našeho systému a na jakkékoli prodejně si po registraci zažádat o zákaznickou kartu, která vám bude přinášet nespočet výhod při nakupování. Vzhled a funkčnost našich stránek můžete ohodnotit<a href="hodnoceni.php">zde.</a>
+            </p>
+            <h4>
+                Co si o nás lidé myslí?
+            </h4>
+            <div class="row">
+                <div class="col-sm-3">
+                    <button class="btn btn-primary" onclick="pred()">Předchozí</button>
+                </div>
+                <div class="col-sm-6" id="aktualniKomentar">
+
+                </div>
+                <div class="col-sm-3">
+                    <button class="btn btn-primary" onclick="dalsi()">Další</button>
+                </div>
+            </div>
+
         </div>
     </div>
     <div class="row footer">
@@ -62,6 +121,7 @@ include "func.php";
             </h4>
         </div>
     </div>
+
 </body>
 
 </html>

@@ -18,6 +18,7 @@ include "func.php";
     <link rel="stylesheet" href="style.css">
     <link rel="shortcut icon" href="logo.png" type="image/png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 
@@ -52,7 +53,7 @@ include "func.php";
             <form action="" method="get">
                 <div class="form-group" id="rangeBox">
                     <label for="jmeno_hodnoceni">Vaše jméno:</label>
-                    <input type="text" class="form-control" name="jmeno_hodnoceni" id="jmeno_hodnoceni" aria-describedby="helpId" placeholder="Jméno">
+                    <input type="text" class="form-control" name="jmeno_hodnoceni" id="jmeno_hodnoceni" placeholder="Jméno">
                 </div>
                 <div class="form-group">
                     <label for="hodnota_hodnoceni">Hodnocení v procentech spokojenosti </label><output style="left: 50%" class="" id="bubble">: 50%</output>

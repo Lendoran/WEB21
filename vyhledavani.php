@@ -14,10 +14,11 @@ include "func.php";
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hodnocení</title>
+    <title>Vyhledání produktu</title>
     <link rel="stylesheet" href="style.css">
     <link rel="shortcut icon" href="logo.png" type="image/png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 
@@ -49,14 +50,14 @@ include "func.php";
             </div>
         </div>
         <div class="col-sm-9 bg-lime p-3 content-form">
-            <form action="" method="get">
-                <div class="form-group" id="rangeBox">
+            <form action="vyhledavani.php" method="get">
+                <div class="form-group" id="nazev">
                     <label for="jmeno_produktu">Název produktu:</label>
-                    <input type="text" class="form-control" name="jmeno_produktu" id="jmeno_produktu" aria-describedby="helpId" placeholder="Název">
+                    <input type="text" class="form-control" name="jmeno_produktu" id="jmeno_produktu" placeholder="Název">
                 </div>
-                <div class="form-group" id="rangeBox">
+                <div class="form-group" id="kod">
                     <label for="kod_produktu">Kód produktu:</label>
-                    <input type="text" class="form-control" name="kod_produktu" id="kod_produktu" aria-describedby="helpId" placeholder="Název">
+                    <input type="text" class="form-control" name="kod_produktu" id="kod_produktu" placeholder="Název">
                 </div>
                 <button type="submit" class="btn btn-primary" name="odeslat_hodnoceni">Vyhledat produkt</button>
             </form>
