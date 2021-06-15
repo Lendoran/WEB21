@@ -1,2 +1,3 @@
-Martin;50; 
-Jana;80; Web se mi líbí.
+
+martin;80;dobrý
+ano:??:
