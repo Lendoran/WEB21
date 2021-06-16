@@ -90,9 +90,9 @@ include "func.php";
                         $jmeno = $_GET["jmeno_hodnoceni"];
                         $hodnoceni = $_GET["hodnota_hodnoceni"];
                         $file = fopen("hodnoceni.txt", "a") or die("nepodařilo se otevřít soubor s hodnocením");
-                        fwrite($file, "$jmeno;$hodnoceni;$komentar:??:");
+                        fwrite($file, "$jmeno;ů-.,$hodnoceni;ů-.,$komentar:??¨§ů§:");
                         fclose($file);
-                        echo "Komentář byl úspěšně zapsán";
+                        echo "Komentář byl úspěšně zapsán. Děkujeme za ohodnocení!";
                     } else {
                         echo "Musíš zadat hodnotu hodnocení";
                     }

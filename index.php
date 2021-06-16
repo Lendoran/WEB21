@@ -7,10 +7,10 @@ $conn->set_charset("utf8");
 include "func.php";
 
 $L2Arr = file_get_contents("hodnoceni.txt");
-$exp = explode(":??:", $L2Arr);
+$exp = explode(":??¨§ů§:", $L2Arr);
 $komentare = [];
 foreach ($exp as $key => $value) {
-    $rozdelene = explode(";", $value);
+    $rozdelene = explode(";ů-.,", $value);
     if ($rozdelene[0] != null && $rozdelene[1] != null && $rozdelene[2] != null) {
         $jmeno = $rozdelene[0];
         $procenta = $rozdelene[1];
@@ -41,30 +41,51 @@ foreach ($komentare as $key => $value) {
 
 <body class="bg-white text-secondary text-center container-fluid" onload="nacti()">
     <script>
+        let clicked = false;
+
+        let cislo;
+
         let str = <?php echo json_encode($arrAsString); ?>;
 
         let komentareArr = str.split("!_:?_!");
         komentareArr.pop();
 
-        let cislo = Math.floor(Math.random() * komentareArr.length);
-
         let pred = function pred() {
+            clicked = true;
             if (cislo == 0) {
                 return;
             }
             document.getElementById("aktualniKomentar").innerHTML = komentareArr[--cislo];
+            document.getElementById("cisloKomentare").innerHTML = "" + ++cislo + " / " + komentareArr.length;
+            cislo--;
         }
 
         let dalsi = function dalsi() {
-            if (cislo == komentareArr.length - 1) {
+            clicked = true;
+            if (cislo >= komentareArr.length - 1) {
                 return;
             }
             document.getElementById("aktualniKomentar").innerHTML = komentareArr[++cislo];
+            document.getElementById("cisloKomentare").innerHTML = "" + ++cislo + " / " + komentareArr.length;
+            cislo--;
         }
 
         let nacti = function nacti() {
+            if (clicked === true) {
+                return;
+            }
+            if (komentareArr.length === 0) {
+                document.getElementById("aktualniKomentar").innerHTML = "Nemáme žádné komentáře";
+                return;
+            }
+            cislo = Math.floor(Math.random() * komentareArr.length);
             document.getElementById("aktualniKomentar").innerHTML = komentareArr[cislo];
+            document.getElementById("cisloKomentare").innerHTML = "" + ++cislo + " / " + komentareArr.length;
+            cislo--;
         }
+        setInterval(() => {
+            nacti();
+        }, 3500);
     </script>
     <div class="row header">
         <div class="col-sm-2">
@@ -99,6 +120,9 @@ foreach ($komentare as $key => $value) {
             <h4>
                 Co si o nás lidé myslí?
             </h4>
+            <h6 id="cisloKomentare">
+
+            </h6>
             <div class="row">
                 <div class="col-sm-3">
                     <button class="btn btn-primary" onclick="pred()">Předchozí</button>

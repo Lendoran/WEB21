@@ -2,12 +2,15 @@ html {
     border-collapse: collapse;
 }
 .generatedtable {
-    border: 5px solid green;
+    border: 3px solid green;
     border-collapse: collapse;
     margin: auto;
+    margin-top: 20px;
+    padding: 10px;
 }
 .generatedtable td {
     border: 1px solid green;
+    padding: 5px;
 }
 .generatedtable tbody tr:nth-child(odd) {
     background-color: greenyellow;
@@ -15,7 +18,7 @@ html {
 .generatedtable tbody tr:nth-child(even) {
     background-color: lightskyblue;
 }
-.generatedtable tr:hover {
+.generatedtable tbody tr:hover {
     background-color: lightsalmon;
 }
 body {
@@ -65,8 +68,6 @@ blockquote {
     padding: 1em;
     font-size: 1.1em;
     color: darkblue;
-}
-.blockquote-footer {
 }
 #uvod {
     font-size: 1.3em;

@@ -1,5 +1,3 @@
-todo při výpisu tabulky bude v divu scrolovací možnost na tabulku
-
 todo ve výpisu tabulky s scanovanými itemy bude odkaz na daný produkt (tlačítko které odešle dotaz na produkt)
 
 ?login a registrace pro stále zákazníky, sleva 10%, zeptání se na vytvoření zákaznické karty

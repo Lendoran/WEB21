@@ -77,20 +77,33 @@ function TableFrom2DArrayCustom1($HeaderArray, $l2Arr, $kody)
     $result .= "<tr>";
     $result .= WrapL1ArrInTableData($HeaderArray);
     $result .= "<td>přidat do košíku</td>";
+    $result .= "<td>V košíku</td>";
     $result .= "</tr>";
     $result .= "</thead>";
     $result .= "<tbody>";
-    $result .= WrapL2ArrInTableRowCustom1($l2Arr);
+    $result .= WrapL2ArrInTableRowCustom1($l2Arr, $kody);
     $result .= "</tbody>";
     $result .= "</table>";
 
     return $result;
 }
-function WrapL2ArrInTableRowCustom1($l2Arr)
+function WrapL2ArrInTableRowCustom1($l2Arr, $kody)
 {
     $result = "";
     foreach ($l2Arr as $key => $l1Arr) {
-        $result .= "<tr>" . WrapL1ArrInTableData($l1Arr) . "<button onclick=\"addToCart()\">do košíku</button></tr>";
+        $result .= "<tr>" . WrapL1ArrInTableDataCustom1($l1Arr, $kody, $key) . "<td><button type=\"button\" onclick=\"addToCart($kody[$key])\" class=\"btn btn-secondary\" id=\"kup-$kody[$key]\">do košíku</button></td><td><span id=\"kosik-$kody[$key]\" class=\"col-1\">0</span></td></tr>";
+    }
+    return $result;
+}
+function WrapL1ArrInTableDataCustom1($l1Arr, $kody, $currKey)
+{
+    $result = "";
+    foreach ($l1Arr as $key => $value) {
+        if ($key == "sklad") {
+            $result .= "<td id=\"sklad-$kody[$currKey]\">" . $value . "</td>";
+        } else {
+            $result .= "<td>" . $value . "</td>";
+        }
     }
     return $result;
 }
