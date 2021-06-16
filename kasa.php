@@ -269,6 +269,8 @@ $polozky = mysqli_fetch_all($polozky);
                 <?php
                 if (isset($_POST['placeni'])) {
                     echo "Děkujeme za váš nákup.";
+
+                    // SQL -> UPDATE produkty SET sklad = xxx WHERE kod = xxx;
                 }
                 ?>
             </form>
