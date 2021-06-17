@@ -13,3 +13,5 @@ todo ve výpisu tabulky s scanovanými itemy bude odkaz na daný produkt (tlač�
 todo nastavit že v tabulce uživatele bude username unique
 
 todo -> func.php
+
+přidat název aktuální stránky pod header -> aby se vertikálně rozšířila stránka
