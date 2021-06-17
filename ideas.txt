@@ -1,3 +1,4 @@
 ?login a registrace pro stále zákazníky, sleva 10%, zeptání se na vytvoření zákaznické karty
 
 todo průměrné skóre webu z komentářů
+
