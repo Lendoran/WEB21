@@ -13,8 +13,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `obchod`
 --
-CREATE DATABASE IF NOT EXISTS `obchod` DEFAULT CHARACTER SET utf8 COLLATE utf8_czech_ci;
-USE `obchod`;
+CREATE DATABASE IF NOT EXISTS `users_horeso` DEFAULT CHARACTER SET utf8 COLLATE utf8_czech_ci;
+USE `users_horeso`;
 
 -- --------------------------------------------------------
 
@@ -35,10 +35,21 @@ CREATE TABLE `produkty` (
 --
 
 INSERT INTO `produkty` (`id`, `kod`, `jmeno`, `cena`, `sklad`) VALUES
-(3, 745863783, 'Rohlík', '1.90', 1000),
+(1, 536357162, 'Bageta', '8.90', 672),
+(2, 362519685, 'Paprikáš', '29.90', 192),
+(3, 745863783, 'Rohlík', '1.90', 985),
 (4, 753897337, 'Chleba', '19.90', 200),
 (5, 354876214, 'Tvarohový koláč', '9.90', 120),
-(6, 498487621, 'Celozrnný rohlík', '3.50', 360);
+(6, 498487621, 'Celozrnný rohlík', '3.50', 360),
+(7, 791891969, 'Mléko', '13.90', 540),
+(8, 246987411, 'Vajíčka 10Ks', '16.50', 430),
+(9, 984651982, 'Máslo', '32.90', 215),
+(10, 654165494, 'Pivní rohlík', '4.25', 630),
+(11, 195497954, 'Makový koláč', '10.90', 95),
+(12, 503616513, 'Pomerančový džus', '12.90', 249),
+(13, 249941108, 'Jablko', '3.30', 543),
+(14, 349641987, 'Párky', '39.90', 165),
+(15, 349641987, 'Pomeranč', '5.90', 345);
 
 -- --------------------------------------------------------
 
