@@ -1,17 +1,4 @@
-todo při výpisu tabulky bude v divu scrolovací možnost na tabulku
-
-todo ve výpisu tabulky s scanovanými itemy bude odkaz na daný produkt (tlačítko které odešle dotaz na produkt)
-
 ?login a registrace pro stále zákazníky, sleva 10%, zeptání se na vytvoření zákaznické karty
 
-*sql tabulka produkty = id, kod, jmeno, cena, pocetKsNaSklade
+todo průměrné skóre webu z komentářů
 
-? stránky = kasa - aktuální košík se bude ukládat do textového souboru a na konci se vše odečte z databáze
-
-?f zeptat se učitelky ve škole na strukturu mysqli_result
-
-todo nastavit že v tabulce uživatele bude username unique
-
-todo -> func.php
-
-přidat název aktuální stránky pod header -> aby se vertikálně rozšířila stránka
