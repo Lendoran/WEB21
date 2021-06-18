@@ -1,5 +1,5 @@
 <?php
-$conn = new mysqli("localhost", "root", "root", "obchod");
+$conn = new mysqli("hosting.pilsfree.net", "horeso", "MisujPhaHetofs6", "users_horeso");
 if ($conn->connect_error)
     die("Connection failed: " . $conn->connect_error);
 $conn->set_charset("utf8");
