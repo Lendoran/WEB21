@@ -107,7 +107,11 @@ function WrapL1ArrInTableDataCustom1($l1Arr, $kody, $currKey)
     }
     return $result;
 }
-function addToCart($id, $kusu)
+function pushKody($result)
 {
-    # code...
+    $kody = [];
+    while ($row = $result->fetch_row()) {
+        array_push($kody, $row[1]);
+    }
+    return $kody;
 }
