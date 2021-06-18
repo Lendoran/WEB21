@@ -89,7 +89,7 @@ foreach ($komentare as $key => $value) {
     </script>
     <div class="row header">
         <div class="col-sm-2">
-            <img src="logo.png" alt="logo firmy" class="img-fluid">
+            <img src="logo.png" alt="logo firmy" class="img-fluid" draggable="true">
         </div>
         <div class="col-sm-10">
             <h1>Webový portál firmy Obchod</h1>
@@ -115,7 +115,7 @@ foreach ($komentare as $key => $value) {
         </div>
         <div class="col-sm-9 bg-lime p-3 content-form">
             <p id="uvod">
-                Vítejte na webových stránkách obchodu. Můžete zde vyhledávat produkty, jejich množství na skladě a jejich cenu. Dále se můžete registrovat do našeho systému a na jakkékoli prodejně si po registraci zažádat o zákaznickou kartu, která vám bude přinášet nespočet výhod při nakupování. Vzhled a funkčnost našich stránek můžete ohodnotit<a href="hodnoceni.php">zde.</a>
+                Vítejte na webových stránkách obchodu. Můžete zde vyhledávat produkty, jejich množství na skladě a jejich cenu. Dále se můžete registrovat do našeho systému a na jakkékoli prodejně si po registraci zažádat o vytisknutí zákaznické karty, která vám bude přinášet nespočet výhod při nakupování. Vzhled a funkčnost našich stránek můžete ohodnotit<a href="hodnoceni.php">zde.</a>
             </p>
             <h4>
                 Co si o nás lidé myslí?

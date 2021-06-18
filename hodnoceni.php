@@ -101,6 +101,9 @@ include "func.php";
                 }
             }
             ?>
+            <div class="m-4">
+                <h5>Všechny naše komentáře si můžete přečíst <a href="index.php">zde</a></h5>
+            </div>
         </div>
     </div>
     <div class="row footer">
