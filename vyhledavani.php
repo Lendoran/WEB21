@@ -57,7 +57,7 @@ include "func.php";
                 </div>
                 <div class="form-group" id="kod">
                     <label for="kod_produktu">Kód produktu:</label>
-                    <input type="text" class="form-control" name="kod_produktu" id="kod_produktu" placeholder="Kód" pattern="[1-9]{9}">
+                    <input type="text" class="form-control" name="kod_produktu" id="kod_produktu" placeholder="Kód">
                 </div>
                 <button type="submit" class="btn btn-primary" name="vyhledat">Vyhledat produkt</button>
             </form>
