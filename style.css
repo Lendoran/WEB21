@@ -72,3 +72,16 @@ blockquote {
 #uvod {
     font-size: 1.3em;
 }
+h1 {
+    padding-top: calc(5vw);
+}
+@media (max-width: 764px) {
+    h1 {
+        padding-top: 1vh;
+    }
+}
+@media (min-width: 1500px) {
+    h1 {
+        padding-top: 75px;
+    }
+}

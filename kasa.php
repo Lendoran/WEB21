@@ -69,15 +69,15 @@ while ($row = $polozkyslq->fetch_array(MYSQLI_NUM)) {
         }
     </script>
     <div class="row header">
-        <div class="col-sm-2">
+        <div class="col-md-2">
             <img src="logo.png" alt="logo firmy" class="img-fluid">
         </div>
-        <div class="col-sm-10">
+        <div class="col-md-10">
             <h1>Webový portál firmy Obchod</h1>
         </div>
     </div>
     <div class="row secondRow">
-        <div class="col-sm-3 container sidebar">
+        <div class="col-md-3 container-fluid sidebar m-0">
             <div class=" row">
                 <a href="index.php" class="col-12">Úvodní stránka</a>
             </div>
@@ -94,29 +94,29 @@ while ($row = $polozkyslq->fetch_array(MYSQLI_NUM)) {
                 <a href="hodnoceni.php" class="col-12">hodnocení stránky</a>
             </div>
         </div>
-        <div class="col-sm-9 bg-lime p-3 content-form">
+        <div class="col-md-9 bg-lime p-3 content-form">
             <form action="" method="post">
-                <div class="form-group">
+                <div class="form-group col-md-12">
                     <label for="jmeno_produktu">Název produktu:</label>
                     <input type="text" class="form-control" name="jmeno_produktu" id="jmeno_produktu" placeholder="Název">
                 </div>
-                <div class="form-group">
+                <div class="form-group col-md-12">
                     <label for="kod_produktu">Kód produktu:</label>
                     <input type="text" class="form-control" name="kod_produktu" id="kod_produktu" placeholder="Kód">
                 </div>
-                <div class="btn-group m-1">
+                <div class="btn-group m-1 col-md-12">
                     <button type="submit" class="btn btn-primary" name="vyhledat">Vyhledat produkt</button>
                     <button type="submit" class="btn btn-primary" name="vyhledatcena">Vyhledat produkt (cena)</button>
                     <button type="submit" class="btn btn-primary" name="vyhledatnazev">Vyhledat produkt (název)</button>
                     <button type="submit" class="btn btn-primary" name="vyhledatkod">Vyhledat produkt (kód)</button>
                 </div> <br>
-                <div class="btn-group m-1">
+                <div class="btn-group m-1 col-md-12">
                     <button type="submit" class="btn btn-primary" name="vse">Všechny produkty</button>
                     <button type="submit" class="btn btn-primary" name="cena">Všechny produkty (cena)</button>
                     <button type="submit" class="btn btn-primary" name="nazev">Všechny produkty (název)</button>
                     <button type="submit" class="btn btn-primary" name="kod">Všechny produkty (kód)</button>
                 </div> <br>
-                <div class="btn-group m-1">
+                <div class="btn-group m-1 col-md-12">
                     <button type="submit" class="btn btn-primary" name="prumercenavse">Průměrná cena všech produktů</button>
                     <button type="submit" class="btn btn-primary" name="prumercenavyhledat">Průměrná cena vyhledaných produktů</button>
                 </div> <br>
@@ -329,6 +329,7 @@ while ($row = $polozkyslq->fetch_array(MYSQLI_NUM)) {
                 echo date('d.m.Y G:i:s'); ?>
             </h4>
         </div>
+        <a href="zadani.html" class="col-md-12">zadání</a>
     </div>
 </body>
 

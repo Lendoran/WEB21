@@ -24,15 +24,15 @@ include "func.php";
 
 <body class="bg-white text-secondary text-center container-fluid">
     <div class="row header">
-        <div class="col-sm-2">
+        <div class="col-md-2">
             <img src="logo.png" alt="logo firmy" class="img-fluid">
         </div>
-        <div class="col-sm-10">
+        <div class="col-md-10">
             <h1>Webový portál firmy Obchod</h1>
         </div>
     </div>
     <div class="row secondRow">
-        <div class="col-sm-3 container sidebar">
+        <div class="col-md-3 container-fluid sidebar">
             <div class=" row">
                 <a href="index.php" class="col-12">Úvodní stránka</a>
             </div>
@@ -49,7 +49,7 @@ include "func.php";
                 <a href="hodnoceni.php" class="col-12">hodnocení stránky</a>
             </div>
         </div>
-        <div class="col-sm-9 bg-lime p-3 content-form">
+        <div class="col-md-9 bg-lime p-3 content-form">
             <form action="" method="post">
                 <div class="form-group" id="rangeBox">
                     <label for="uzivatel_jmeno">Uživatelské jméno:</label>
@@ -109,6 +109,7 @@ include "func.php";
                 echo date('d.m.Y G:i:s'); ?>
             </h4>
         </div>
+        <a href="zadani.html" class="col-md-12">zadání</a>
     </div>
 </body>
 

@@ -88,15 +88,15 @@ foreach ($komentare as $key => $value) {
         }, 3500);
     </script>
     <div class="row header">
-        <div class="col-sm-2">
+        <div class="col-md-2">
             <img src="logo.png" alt="logo firmy" class="img-fluid" draggable="true">
         </div>
-        <div class="col-sm-10">
+        <div class="col-md-10">
             <h1>Webový portál firmy Obchod</h1>
         </div>
     </div>
     <div class="row secondRow">
-        <div class="col-sm-3 container sidebar">
+        <div class="col-md-3 container-fluid sidebar">
             <div class=" row">
                 <a href="index.php" class="col-12">Úvodní stránka</a>
             </div>
@@ -113,7 +113,7 @@ foreach ($komentare as $key => $value) {
                 <a href="hodnoceni.php" class="col-12">hodnocení stránky</a>
             </div>
         </div>
-        <div class="col-sm-9 bg-lime p-3 content-form">
+        <div class="col-md-9 bg-lime p-3 content-form">
             <p id="uvod">
                 Vítejte na webových stránkách obchodu. Můžete zde vyhledávat produkty, jejich množství na skladě a jejich cenu. Dále se můžete registrovat do našeho systému a na jakkékoli prodejně si po registraci zažádat o vytisknutí zákaznické karty, která vám bude přinášet nespočet výhod při nakupování. Vzhled a funkčnost našich stránek můžete ohodnotit<a href="hodnoceni.php">zde.</a>
             </p>
@@ -124,13 +124,13 @@ foreach ($komentare as $key => $value) {
 
             </h6>
             <div class="row">
-                <div class="col-sm-3">
+                <div class="col-md-3">
                     <button class="btn btn-primary" onclick="pred()">Předchozí</button>
                 </div>
-                <div class="col-sm-6" id="aktualniKomentar">
+                <div class="col-md-6" id="aktualniKomentar">
 
                 </div>
-                <div class="col-sm-3">
+                <div class="col-md-3">
                     <button class="btn btn-primary" onclick="dalsi()">Další</button>
                 </div>
             </div>
@@ -144,6 +144,7 @@ foreach ($komentare as $key => $value) {
                 echo date('d.m.Y G:i:s'); ?>
             </h4>
         </div>
+        <a href="zadani.html" class="col-md-12">zadání</a>
     </div>
 
 </body>
