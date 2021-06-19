@@ -89,15 +89,16 @@ include "func.php";
                     WHERE uzivatel_jmeno = '$uzivatel_jmeno';";
                 $result = $conn->query($sql);
                 $result = mysqli_fetch_array($result, MYSQLI_NUM);
-                if ($result == 1) {
+                if ($result[0] == 1) {
                     echo "uživatelské jméno již existuje, zvolte prosím jiné";
                     return;
+                } else {
+                    $crypto = hash("sha384", $_POST["uzivatel_heslo"]);
+                    $sql = "INSERT INTO uzivatele VALUES
+                        (NULL, '$uzivatel_jmeno', '$crypto', '1');";
+                    $conn->query($sql);
+                    echo "Byl jste úspěšně zaregistrován";
                 }
-                $crypto = hash("sha384", $_POST["uzivatel_heslo"]);
-                $sql = "INSERT INTO uzivatele VALUES
-                    (NULL, '$uzivatel_jmeno', '$crypto', '1');";
-                $conn->query($sql);
-                echo "Byl jste úspěšně zaregistrován";
             }
             ?>
         </div>
