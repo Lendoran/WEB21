@@ -50,6 +50,7 @@ foreach ($komentare as $key => $value) {
 
         let komentareArr = str.split("!_:?_!");
         komentareArr.pop();
+        komentareArr = shuffle(komentareArr);
 
         let pred = function pred() {
             clicked = true;
@@ -87,6 +88,19 @@ foreach ($komentare as $key => $value) {
             document.getElementById("cisloKomentare").innerHTML = "" + ++cislo + " / " + komentareArr.length;
             cislo--;
             posledniKoment = cislo;
+        }
+
+        function shuffle(array) {
+            var currentIndex = array.length,
+                randomIndex;
+            while (0 !== currentIndex) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [
+                    array[randomIndex], array[currentIndex]
+                ];
+            }
+            return array;
         }
         setInterval(() => {
             nacti();
