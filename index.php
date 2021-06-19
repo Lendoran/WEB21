@@ -44,6 +44,7 @@ foreach ($komentare as $key => $value) {
         let clicked = false;
 
         let cislo;
+        let posledniKoment;
 
         let str = <?php echo json_encode($arrAsString); ?>;
 
@@ -79,13 +80,17 @@ foreach ($komentare as $key => $value) {
                 return;
             }
             cislo = Math.floor(Math.random() * komentareArr.length);
+            if (cislo == posledniKoment) {
+                nacti();
+            }
             document.getElementById("aktualniKomentar").innerHTML = komentareArr[cislo];
             document.getElementById("cisloKomentare").innerHTML = "" + ++cislo + " / " + komentareArr.length;
             cislo--;
+            posledniKoment = cislo;
         }
         setInterval(() => {
             nacti();
-        }, 3500);
+        }, 3000);
     </script>
     <div class="row header">
         <div class="col-md-2">
