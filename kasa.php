@@ -35,6 +35,7 @@ while ($row = $polozkyslq->fetch_array(MYSQLI_NUM)) {
         let sklad = [];
         let celkCena = 0;
         let polozky = <?php echo json_encode($polozky); ?>;
+        let kody = [];
 
         function addToCart(kod) {
             let cena, inv;
@@ -47,6 +48,7 @@ while ($row = $polozkyslq->fetch_array(MYSQLI_NUM)) {
             if (kosik[kod] === undefined) {
                 kosik[kod] = 0;
                 sklad[kod] = inv;
+                kody.push(kod);
             }
             if (sklad[kod] != 0) {
                 document.getElementById("kosik-" + kod).innerHTML = ++kosik[kod];
@@ -60,6 +62,10 @@ while ($row = $polozkyslq->fetch_array(MYSQLI_NUM)) {
         function zaplaceni() {
             document.getElementById("zaplaceniNakupu").innerHTML = "Děkujeme za váš nákup. Zaplatili jste " + Math.round(celkCena * 100) / 100 + " Kč.";
             celkCena = 0;
+            kody.forEach(element => {
+                document.getElementById("kosik-" + element).innerHTML = 0;
+                kosik[element] = 0;
+            });
         }
     </script>
     <div class="row header">
