@@ -47,7 +47,6 @@ foreach ($komentare as $key => $value) {
         let posledniKoment;
 
         let str = <?php echo json_encode($arrAsString); ?>;
-
         let komentareArr = str.split("!_:?_!");
         komentareArr.pop();
         komentareArr = shuffle(komentareArr);
