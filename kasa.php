@@ -33,6 +33,7 @@ while ($row = $polozkyslq->fetch_array(MYSQLI_NUM)) {
     <script>
         let kosik = [];
         let sklad = [];
+        let celkCena = 0;
         let polozky = <?php echo json_encode($polozky); ?>;
 
         function addToCart(kod) {
@@ -50,9 +51,15 @@ while ($row = $polozkyslq->fetch_array(MYSQLI_NUM)) {
             if (sklad[kod] != 0) {
                 document.getElementById("kosik-" + kod).innerHTML = ++kosik[kod];
                 document.getElementById("sklad-" + kod).innerHTML = --sklad[kod];
+                celkCena += parseFloat(cena);
             } else {
                 document.getElementById("kup-" + kod).innerHTML = "Vyprodáno";
             }
+        }
+
+        function zaplaceni() {
+            document.getElementById("zaplaceniNakupu").innerHTML = "Děkujeme za váš nákup. Zaplatili jste " + Math.round(celkCena * 100) / 100 + " Kč.";
+            celkCena = 0;
         }
     </script>
     <div class="row header">
@@ -107,204 +114,206 @@ while ($row = $polozkyslq->fetch_array(MYSQLI_NUM)) {
                     <button type="submit" class="btn btn-primary" name="prumercenavse">Průměrná cena všech produktů</button>
                     <button type="submit" class="btn btn-primary" name="prumercenavyhledat">Průměrná cena vyhledaných produktů</button>
                 </div> <br>
-                <div>
-                    <button type="submit" class="btn btn-primary m-1" name="placeni">Zaplatit</button>
-                </div>
-                <?php
-                if (isset($_POST['prumercenavyhledat'])) {
-                    $pocet = 0;
-                    $celkem = 0;
-                    if (empty($_POST["jmeno_produktu"]) and empty($_POST["kod_produktu"])) {
-                        echo "musíš zadat jméno nebo kód produktu";
-                        return;
-                    } else {
-                        if (!empty($_POST["kod_produktu"]) && empty($_POST["jmeno_produktu"])) {
-                            $kod = $_POST["kod_produktu"];
-                            $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty WHERE kod LIKE '%$kod%';");
-                            $kody = [];
-                            while ($row = $result->fetch_row()) {
-                                array_push($kody, $row[1]);
-                                $pocet++;
-                                $celkem += $row[3];
-                            }
-                            echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
-                        }
-                        if (!empty($_POST["jmeno_produktu"]) && empty($_POST["kod_produktu"])) {
-                            $jmeno = $_POST["jmeno_produktu"];
-                            $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty WHERE jmeno LIKE '%$jmeno%';");
-                            $kody = [];
-                            while ($row = $result->fetch_row()) {
-                                array_push($kody, $row[1]);
-                                $pocet++;
-                                $celkem += $row[3];
-                            }
-                            echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
-                        }
-                        if (!empty($_POST["jmeno_produktu"]) && !empty($_POST["kod_produktu"])) {
-                            $jmeno = $_POST["jmeno_produktu"];
-                            $kod = $_POST["kod_produktu"];
-                            $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty WHERE jmeno LIKE '%$jmeno%' AND kod LIKE '%$kod%';");
-                            $kody = [];
-                            while ($row = $result->fetch_row()) {
-                                array_push($kody, $row[1]);
-                                $pocet++;
-                                $celkem += $row[3];
-                            }
-                            echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
-                        }
-                    }
-                    if ($pocet == 0) {
-                        echo "Nebyly nalezeny žádné produkty s danými parametry";
-                    } else {
-                        $prumer = $celkem / $pocet;
-                        echo "<h4 class\"m-2\">Průměrná cena vyhledaných produktů je: $prumer Kč</h4>";
-                    }
-                }
-                if (isset($_POST['prumercenavse'])) {
-                    $pocet = 0;
-                    $celkem = 0;
-                    $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty;");
-                    $kody = [];
-                    while ($row = $result->fetch_row()) {
-                        array_push($kody, $row[1]);
-                        $pocet++;
-                        $celkem += $row[3];
-                    }
-                    echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
-                    if ($pocet == 0) {
-                        echo "Nemáme žádné produkty?????????????????????? (asi se špatně načetla databáze)";
-                    } else {
-                        $prumer = $celkem / $pocet;
-                        echo "<h4 class\"m-2\">Průměrná cena vyhledaných produktů je: $prumer Kč</h4>";
-                    }
-                }
-                if (isset($_POST['vyhledat'])) {
-                    if (empty($_POST["jmeno_produktu"]) and empty($_POST["kod_produktu"])) {
-                        echo "musíš zadat jméno nebo kód produktu";
-                    } else {
-                        if (!empty($_POST["kod_produktu"]) && empty($_POST["jmeno_produktu"])) {
-                            $kod = $_POST["kod_produktu"];
-                            $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty WHERE kod LIKE '%$kod%';");
-                            $kody = pushKody($result);
-                            echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
-                        }
-                        if (!empty($_POST["jmeno_produktu"]) && empty($_POST["kod_produktu"])) {
-                            $jmeno = $_POST["jmeno_produktu"];
-                            $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty WHERE jmeno LIKE '%$jmeno%';");
-                            $kody = pushKody($result);
-                            echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
-                        }
-                        if (!empty($_POST["jmeno_produktu"]) && !empty($_POST["kod_produktu"])) {
-                            $jmeno = $_POST["jmeno_produktu"];
-                            $kod = $_POST["kod_produktu"];
-                            $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty WHERE jmeno LIKE '%$jmeno%' AND kod LIKE '%$kod%';");
-                            $kody = pushKody($result);
-                            echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
-                        }
-                    }
-                }
-                if (isset($_POST['vyhledatkod'])) {
-                    if (empty($_POST["jmeno_produktu"]) and empty($_POST["kod_produktu"])) {
-                        echo "musíš zadat jméno nebo kód produktu";
-                    } else {
-                        if (!empty($_POST["kod_produktu"]) && empty($_POST["jmeno_produktu"])) {
-                            $kod = $_POST["kod_produktu"];
-                            $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty WHERE kod LIKE '%$kod%' ORDER BY kod;");
-                            $kody = pushKody($result);
-                            echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
-                        }
-                        if (!empty($_POST["jmeno_produktu"]) && empty($_POST["kod_produktu"])) {
-                            $jmeno = $_POST["jmeno_produktu"];
-                            $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty WHERE jmeno LIKE '%$jmeno%' ORDER BY kod;");
-                            $kody = pushKody($result);
-                            echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
-                        }
-                        if (!empty($_POST["jmeno_produktu"]) && !empty($_POST["kod_produktu"])) {
-                            $jmeno = $_POST["jmeno_produktu"];
-                            $kod = $_POST["kod_produktu"];
-                            $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty WHERE jmeno LIKE '%$jmeno%' AND kod LIKE '%$kod%' ORDER BY kod;");
-                            $kody = pushKody($result);
-                            echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
-                        }
-                    }
-                }
-                if (isset($_POST['vyhledatnazev'])) {
-                    if (empty($_POST["jmeno_produktu"]) and empty($_POST["kod_produktu"])) {
-                        echo "musíš zadat jméno nebo kód produktu";
-                    } else {
-                        if (!empty($_POST["kod_produktu"]) && empty($_POST["jmeno_produktu"])) {
-                            $kod = $_POST["kod_produktu"];
-                            $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty WHERE kod LIKE '%$kod%' ORDER BY jmeno;");
-                            $kody = pushKody($result);
-                            echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
-                        }
-                        if (!empty($_POST["jmeno_produktu"]) && empty($_POST["kod_produktu"])) {
-                            $jmeno = $_POST["jmeno_produktu"];
-                            $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty WHERE jmeno LIKE '%$jmeno%' ORDER BY jmeno;");
-                            $kody = pushKody($result);
-                            echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
-                        }
-                        if (!empty($_POST["jmeno_produktu"]) && !empty($_POST["kod_produktu"])) {
-                            $jmeno = $_POST["jmeno_produktu"];
-                            $kod = $_POST["kod_produktu"];
-                            $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty WHERE jmeno LIKE '%$jmeno%' AND kod LIKE '%$kod%' ORDER BY jmeno;");
-                            $kody = pushKody($result);
-                            echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
-                        }
-                    }
-                }
-                if (isset($_POST['vyhledatcena'])) {
-                    if (empty($_POST["jmeno_produktu"]) and empty($_POST["kod_produktu"])) {
-                        echo "musíš zadat jméno nebo kód produktu";
-                    } else {
-                        if (!empty($_POST["kod_produktu"]) && empty($_POST["jmeno_produktu"])) {
-                            $kod = $_POST["kod_produktu"];
-                            $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty WHERE kod LIKE '%$kod%' ORDER BY cena;");
-                            $kody = pushKody($result);
-                            echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
-                        }
-                        if (!empty($_POST["jmeno_produktu"]) && empty($_POST["kod_produktu"])) {
-                            $jmeno = $_POST["jmeno_produktu"];
-                            $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty WHERE jmeno LIKE '%$jmeno%' ORDER BY cena;");
-                            $kody = pushKody($result);
-                            echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
-                        }
-                        if (!empty($_POST["jmeno_produktu"]) && !empty($_POST["kod_produktu"])) {
-                            $jmeno = $_POST["jmeno_produktu"];
-                            $kod = $_POST["kod_produktu"];
-                            $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty WHERE jmeno LIKE '%$jmeno%' AND kod LIKE '%$kod%' ORDER BY cena;");
-                            $kody = pushKody($result);
-                            echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
-                        }
-                    }
-                }
-                if (isset($_POST['vse'])) {
-                    $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty;");
-                    $kody = pushKody($result);
-                    echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
-                }
-                if (isset($_POST['cena'])) {
-                    $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty ORDER BY cena;");
-                    $kody = pushKody($result);
-                    echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
-                }
-                if (isset($_POST['kod'])) {
-                    $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty ORDER BY kod;");
-                    $kody = pushKody($result);
-                    echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
-                }
-                if (isset($_POST['nazev'])) {
-                    $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty ORDER BY jmeno;");
-                    $kody = pushKody($result);
-                    echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
-                }
-                if (isset($_POST['placeni'])) {
-                    echo "Děkujeme za váš nákup.";
-
-                    // SQL -> UPDATE produkty SET sklad = xxx WHERE kod = xxx;
-                }
-                ?>
             </form>
+            <div>
+                <button class="btn btn-primary m-1" onclick="zaplaceni()">Zaplatit</button>
+            </div>
+            <div>
+                <span id="zaplaceniNakupu" visibility="hidden"></span>
+            </div>
+            <?php
+            if (isset($_POST['prumercenavyhledat'])) {
+                $pocet = 0;
+                $celkem = 0;
+                if (empty($_POST["jmeno_produktu"]) and empty($_POST["kod_produktu"])) {
+                    echo "musíš zadat jméno nebo kód produktu";
+                    return;
+                } else {
+                    if (!empty($_POST["kod_produktu"]) && empty($_POST["jmeno_produktu"])) {
+                        $kod = $_POST["kod_produktu"];
+                        $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty WHERE kod LIKE '%$kod%';");
+                        $kody = [];
+                        while ($row = $result->fetch_row()) {
+                            array_push($kody, $row[1]);
+                            $pocet++;
+                            $celkem += $row[3];
+                        }
+                        echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
+                    }
+                    if (!empty($_POST["jmeno_produktu"]) && empty($_POST["kod_produktu"])) {
+                        $jmeno = $_POST["jmeno_produktu"];
+                        $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty WHERE jmeno LIKE '%$jmeno%';");
+                        $kody = [];
+                        while ($row = $result->fetch_row()) {
+                            array_push($kody, $row[1]);
+                            $pocet++;
+                            $celkem += $row[3];
+                        }
+                        echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
+                    }
+                    if (!empty($_POST["jmeno_produktu"]) && !empty($_POST["kod_produktu"])) {
+                        $jmeno = $_POST["jmeno_produktu"];
+                        $kod = $_POST["kod_produktu"];
+                        $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty WHERE jmeno LIKE '%$jmeno%' AND kod LIKE '%$kod%';");
+                        $kody = [];
+                        while ($row = $result->fetch_row()) {
+                            array_push($kody, $row[1]);
+                            $pocet++;
+                            $celkem += $row[3];
+                        }
+                        echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
+                    }
+                }
+                if ($pocet == 0) {
+                    echo "Nebyly nalezeny žádné produkty s danými parametry";
+                } else {
+                    $prumer = $celkem / $pocet;
+                    echo "<h4 class\"m-2\">Průměrná cena vyhledaných produktů je: $prumer Kč</h4>";
+                }
+            }
+            if (isset($_POST['prumercenavse'])) {
+                $pocet = 0;
+                $celkem = 0;
+                $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty;");
+                $kody = [];
+                while ($row = $result->fetch_row()) {
+                    array_push($kody, $row[1]);
+                    $pocet++;
+                    $celkem += $row[3];
+                }
+                echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
+                if ($pocet == 0) {
+                    echo "Nemáme žádné produkty?????????????????????? (asi se špatně načetla databáze)";
+                } else {
+                    $prumer = $celkem / $pocet;
+                    echo "<h4 class\"m-2\">Průměrná cena vyhledaných produktů je: $prumer Kč</h4>";
+                }
+            }
+            if (isset($_POST['vyhledat'])) {
+                if (empty($_POST["jmeno_produktu"]) and empty($_POST["kod_produktu"])) {
+                    echo "musíš zadat jméno nebo kód produktu";
+                } else {
+                    if (!empty($_POST["kod_produktu"]) && empty($_POST["jmeno_produktu"])) {
+                        $kod = $_POST["kod_produktu"];
+                        $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty WHERE kod LIKE '%$kod%';");
+                        $kody = pushKody($result);
+                        echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
+                    }
+                    if (!empty($_POST["jmeno_produktu"]) && empty($_POST["kod_produktu"])) {
+                        $jmeno = $_POST["jmeno_produktu"];
+                        $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty WHERE jmeno LIKE '%$jmeno%';");
+                        $kody = pushKody($result);
+                        echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
+                    }
+                    if (!empty($_POST["jmeno_produktu"]) && !empty($_POST["kod_produktu"])) {
+                        $jmeno = $_POST["jmeno_produktu"];
+                        $kod = $_POST["kod_produktu"];
+                        $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty WHERE jmeno LIKE '%$jmeno%' AND kod LIKE '%$kod%';");
+                        $kody = pushKody($result);
+                        echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
+                    }
+                }
+            }
+            if (isset($_POST['vyhledatkod'])) {
+                if (empty($_POST["jmeno_produktu"]) and empty($_POST["kod_produktu"])) {
+                    echo "musíš zadat jméno nebo kód produktu";
+                } else {
+                    if (!empty($_POST["kod_produktu"]) && empty($_POST["jmeno_produktu"])) {
+                        $kod = $_POST["kod_produktu"];
+                        $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty WHERE kod LIKE '%$kod%' ORDER BY kod;");
+                        $kody = pushKody($result);
+                        echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
+                    }
+                    if (!empty($_POST["jmeno_produktu"]) && empty($_POST["kod_produktu"])) {
+                        $jmeno = $_POST["jmeno_produktu"];
+                        $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty WHERE jmeno LIKE '%$jmeno%' ORDER BY kod;");
+                        $kody = pushKody($result);
+                        echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
+                    }
+                    if (!empty($_POST["jmeno_produktu"]) && !empty($_POST["kod_produktu"])) {
+                        $jmeno = $_POST["jmeno_produktu"];
+                        $kod = $_POST["kod_produktu"];
+                        $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty WHERE jmeno LIKE '%$jmeno%' AND kod LIKE '%$kod%' ORDER BY kod;");
+                        $kody = pushKody($result);
+                        echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
+                    }
+                }
+            }
+            if (isset($_POST['vyhledatnazev'])) {
+                if (empty($_POST["jmeno_produktu"]) and empty($_POST["kod_produktu"])) {
+                    echo "musíš zadat jméno nebo kód produktu";
+                } else {
+                    if (!empty($_POST["kod_produktu"]) && empty($_POST["jmeno_produktu"])) {
+                        $kod = $_POST["kod_produktu"];
+                        $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty WHERE kod LIKE '%$kod%' ORDER BY jmeno;");
+                        $kody = pushKody($result);
+                        echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
+                    }
+                    if (!empty($_POST["jmeno_produktu"]) && empty($_POST["kod_produktu"])) {
+                        $jmeno = $_POST["jmeno_produktu"];
+                        $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty WHERE jmeno LIKE '%$jmeno%' ORDER BY jmeno;");
+                        $kody = pushKody($result);
+                        echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
+                    }
+                    if (!empty($_POST["jmeno_produktu"]) && !empty($_POST["kod_produktu"])) {
+                        $jmeno = $_POST["jmeno_produktu"];
+                        $kod = $_POST["kod_produktu"];
+                        $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty WHERE jmeno LIKE '%$jmeno%' AND kod LIKE '%$kod%' ORDER BY jmeno;");
+                        $kody = pushKody($result);
+                        echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
+                    }
+                }
+            }
+            if (isset($_POST['vyhledatcena'])) {
+                if (empty($_POST["jmeno_produktu"]) and empty($_POST["kod_produktu"])) {
+                    echo "musíš zadat jméno nebo kód produktu";
+                } else {
+                    if (!empty($_POST["kod_produktu"]) && empty($_POST["jmeno_produktu"])) {
+                        $kod = $_POST["kod_produktu"];
+                        $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty WHERE kod LIKE '%$kod%' ORDER BY cena;");
+                        $kody = pushKody($result);
+                        echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
+                    }
+                    if (!empty($_POST["jmeno_produktu"]) && empty($_POST["kod_produktu"])) {
+                        $jmeno = $_POST["jmeno_produktu"];
+                        $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty WHERE jmeno LIKE '%$jmeno%' ORDER BY cena;");
+                        $kody = pushKody($result);
+                        echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
+                    }
+                    if (!empty($_POST["jmeno_produktu"]) && !empty($_POST["kod_produktu"])) {
+                        $jmeno = $_POST["jmeno_produktu"];
+                        $kod = $_POST["kod_produktu"];
+                        $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty WHERE jmeno LIKE '%$jmeno%' AND kod LIKE '%$kod%' ORDER BY cena;");
+                        $kody = pushKody($result);
+                        echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
+                    }
+                }
+            }
+            if (isset($_POST['vse'])) {
+                $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty;");
+                $kody = pushKody($result);
+                echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
+            }
+            if (isset($_POST['cena'])) {
+                $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty ORDER BY cena;");
+                $kody = pushKody($result);
+                echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
+            }
+            if (isset($_POST['kod'])) {
+                $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty ORDER BY kod;");
+                $kody = pushKody($result);
+                echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
+            }
+            if (isset($_POST['nazev'])) {
+                $result = $conn->query("SELECT id, kod, jmeno, cena, sklad FROM produkty ORDER BY jmeno;");
+                $kody = pushKody($result);
+                echo TableFrom2DArrayCustom1(["id", "kód", "jméno", "cena", "počet kusů na skladě"], $result, $kody);
+            }
+            if (isset($_POST['placeni'])) {
+
+                // SQL -> UPDATE produkty SET sklad = xxx WHERE kod = xxx;
+            }
+            ?>
         </div>
     </div>
     <div class="row footer">
